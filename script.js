@@ -91,8 +91,8 @@ const playlist = [
   { title: "Meltdown", artist: "Iroha", file: "Iroha - Meltdown.mp3", icon: "👑" },
   { title: "Itte", artist: "Yorushika", file: "Yorushika - Itte.mp3", icon: "🌸" },
   { title: "Vegetable", artist: "Miku", file: "Miku - Vegetable.mp3", icon: "🥬" },
-  { title: "This Is for", artist: "Twice", file: "Twice - This Is for.mp3", icon: "💖" },
-  { title: "Heart Shaker", artist: "Twice", file: "Twice - Heart Shaker.mp3", icon: "💓" },
+  { title: "This Is for", artist: "Twice", file: "Twice - This Is For.mp3", icon: "💖" },
+  { title: "Heart Shaker", artist: "Twice", file: "Twice- Heart Shaker.mp3", icon: "💓" },
   { title: "What is Love", artist: "Twice", file: "Twice What is love.mp3", icon: "💌" },
   { title: "New Jeans", artist: "NewJeans", file: "NewJeans - New Jeans.mp3", icon: "👖" },
   { title: "Ditto", artist: "NewJeans", file: "NewJeans - Ditto.mp3", icon: "🎧" }
@@ -227,3 +227,41 @@ likeBtn.addEventListener('click', () => {
 
 // Cargar la primera canción al inicio
 loadSong(currentIndex);
+
+/* CONTROL DE VOLUMEN */
+const volumeSlider = document.getElementById('volume-slider');
+const volumeIcon = document.getElementById('volume-icon');
+let previousVolume = 1;
+
+if (volumeSlider && volumeIcon && audio) {
+  // Ajustar volumen en tiempo real
+  volumeSlider.addEventListener('input', (e) => {
+    const value = parseFloat(e.target.value);
+    audio.volume = value;
+    updateVolumeIcon(value);
+  });
+
+  // Mute / Unmute al hacer clic en el ícono de la bocina
+  volumeIcon.addEventListener('click', () => {
+    if (audio.volume > 0) {
+      previousVolume = audio.volume;
+      audio.volume = 0;
+      volumeSlider.value = 0;
+      updateVolumeIcon(0);
+    } else {
+      audio.volume = previousVolume || 1;
+      volumeSlider.value = audio.volume;
+      updateVolumeIcon(audio.volume);
+    }
+  });
+}
+
+function updateVolumeIcon(value) {
+  if (value === 0) {
+    volumeIcon.innerText = '🔇';
+  } else if (value < 0.5) {
+    volumeIcon.innerText = '🔉';
+  } else {
+    volumeIcon.innerText = '🔊';
+  }
+}
