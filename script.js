@@ -93,7 +93,7 @@ const playlist = [
   { title: "Vegetable", artist: "Miku", file: "Miku - Vegetable.mp3", icon: "🥬" },
   { title: "This Is for", artist: "Twice", file: "Twice - This Is For.mp3", icon: "💖" },
   { title: "Heart Shaker", artist: "Twice", file: "Twice- Heart Shaker.mp3", icon: "💓" },
-  { title: "What is Love", artist: "Twice", file: "Twice What is love.mp3", icon: "💌" },
+  { title: "What is Love", artist: "Twice", file: "Twice - What Is Love.mp3", icon: "💌" },
   { title: "New Jeans", artist: "NewJeans", file: "NewJeans - New Jeans.mp3", icon: "👖" },
   { title: "Ditto", artist: "NewJeans", file: "NewJeans - Ditto.mp3", icon: "🎧" }
 ];
