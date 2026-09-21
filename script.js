@@ -228,33 +228,10 @@ likeBtn.addEventListener('click', () => {
 // Cargar la primera canción al inicio
 loadSong(currentIndex);
 
-/* CONTROL DE VOLUMEN */
+/* CONTROL DE VOLUMEN CON CURVA PERCEPTUAL */
 const volumeSlider = document.getElementById('volume-slider');
 const volumeIcon = document.getElementById('volume-icon');
 let previousVolume = 1;
-
-if (volumeSlider && volumeIcon && audio) {
-  // Ajustar volumen en tiempo real
-  volumeSlider.addEventListener('input', (e) => {
-    const value = parseFloat(e.target.value);
-    audio.volume = value;
-    updateVolumeIcon(value);
-  });
-
-  // Mute / Unmute al hacer clic en el ícono de la bocina
-  volumeIcon.addEventListener('click', () => {
-    if (audio.volume > 0) {
-      previousVolume = audio.volume;
-      audio.volume = 0;
-      volumeSlider.value = 0;
-      updateVolumeIcon(0);
-    } else {
-      audio.volume = previousVolume || 1;
-      volumeSlider.value = audio.volume;
-      updateVolumeIcon(audio.volume);
-    }
-  });
-}
 
 function updateVolumeIcon(value) {
   if (value === 0) {
@@ -264,4 +241,31 @@ function updateVolumeIcon(value) {
   } else {
     volumeIcon.innerText = '🔊';
   }
+}
+
+// Elevar al cuadrado para una curva perceptiva de audio realista
+function setAudioVolume(sliderVal) {
+  const linearVal = parseFloat(sliderVal);
+  audio.volume = Math.pow(linearVal, 2); 
+  updateVolumeIcon(linearVal);
+}
+
+if (volumeSlider && volumeIcon && audio) {
+  setAudioVolume(volumeSlider.value);
+
+  volumeSlider.addEventListener('input', (e) => {
+    setAudioVolume(e.target.value);
+  });
+
+  volumeIcon.addEventListener('click', () => {
+    if (parseFloat(volumeSlider.value) > 0) {
+      previousVolume = volumeSlider.value;
+      volumeSlider.value = 0;
+      setAudioVolume(0);
+    } else {
+      const restoreVol = previousVolume > 0 ? previousVolume : 1;
+      volumeSlider.value = restoreVol;
+      setAudioVolume(restoreVol);
+    }
+  });
 }
